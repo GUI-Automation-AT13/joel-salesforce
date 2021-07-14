@@ -23,10 +23,13 @@ public class CreateAnAssetTest {
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
     wait = new WebDriverWait(driver, 30);
+    login();
   }
 
   @AfterEach
   public void tearDown() {
+    delete();
+    logout();
     driver.quit();
   }
 
@@ -40,7 +43,6 @@ public class CreateAnAssetTest {
 
   @Test
   public void allAttributes13() {
-    login();
     vars.put("asset", "Activos");
     vars.put("assetName", "nombre 6");
     vars.put("serialNumber", "Serial Number");
@@ -77,13 +79,10 @@ public class CreateAnAssetTest {
     driver.findElement(By.xpath("//button[@title=\'Guardar\']")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1/div/span")));
     Assertions.assertEquals (driver.findElement(By.xpath("//h1/div/span")).getText(), (vars.get("assetName").toString()));
-    delete();
-    logout();
   }
 
   @Test
   public void necessaryAttributes13() {
-    login();
     vars.put("asset", "Activos");
     vars.put("assetName", "nombre 6");
     driver.get("https://none773-dev-ed.lightning.force.com/lightning/o/Asset/list?filterName=Recent//");
@@ -97,8 +96,6 @@ public class CreateAnAssetTest {
     driver.findElement(By.xpath("//button[@title=\'Guardar\']")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1/div/span")));
     Assertions.assertEquals (driver.findElement(By.xpath("//h1/div/span")).getText(), (vars.get("assetName").toString()));
-    delete();
-    logout();
   }
 
   public void logout() {
